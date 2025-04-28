@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input {
+            width: 80%;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body> 
+<h1>Timetable Generator</h1>
+
+<label for="days">Number of Days:</label>
+<input type="number" id="days" value="5" min="1"><br><br>
+
+<label for="periods">Number of Time Slots:</label>
+<input type="number" id="period" value="6" min="1"><br><br>
+
+<label for="subjects">Subjects :</label>
+<input type="text" id="subjects" value="ssandcd with anitha, clould computing with shruthi.s.d, computer networks with nandini, ME with sneha, internet of things with rekha.patil"><br><br>
+<button onclick="generateTimetable()">Generate Timetable</button>
+<img src="C:\Users\HP\OneDrive\Desktop\WhatsApp Image 2025-04-25 at 00.23.08_eb2b2044.jpg">
+
+<div id="timetable"></div>
+
+<script>
+    function generateTimetable()
+ {
+        const days = parseInt(document.getElementById('days').value);
+        const period = parseInt(document.getElementById('period').value);
+        const subjectsInput = document.getElementById('subjects').value;
+        const subjects = subjectsInput.split(',').map(subject => subject.trim());
+        const timetableDiv = document.getElementById('timetable');
+
+        // Clear previous timetable
+        timetableDiv.innerHTML = '';
+
+        // Create table
+        const table = document.createElement('table');
+        const headerRow = document.createElement('tr');
+
+        // Create header
+        headerRow.appendChild(document.createElement('th')); // Empty corner cell
+        for (let i = 1; i <= days; i++) {
+            const th = document.createElement('th');
+            th.innerText = 'Day ' + i;
+            headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+
+        // Create time period
+        for (let j = 1; j <= period; j++) {
+            const row = document.createElement('tr');
+            const timePeriodCell = document.createElement('td');
+            timePeriodCell.innerText = 'Period ' + j;
+            row.appendChild(timePeriodCell);
+
+            for (let i = 1; i <= days; i++) {
+                const td = document.createElement('td');
+                const subjectIndex = (i * j - 1) % subjects.length; // Use modulo to cycle through subjects
+                td.innerText = subjects[subjectIndex] || 'N/A'; // Set the inner text with the subject or 'N/A' if no subject
+                row.appendChild(td);
+            }
+            table.appendChild(row);
+        }
+
+        // Append table to the timetable div
+        timetableDiv.appendChild(table);
+    }
+</script>
+
+</body>
+</html>
